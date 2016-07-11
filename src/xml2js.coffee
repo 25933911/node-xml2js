@@ -228,10 +228,10 @@ class exports.Parser extends events.EventEmitter
       if not @options.explicitArray
         obj[key] = newValue
       else
-        if key in @options.explicitArray
-          obj[key] = [newValue]
-        else
+        if @options.explicitArray instanceof Array and key not in @options.explicitArray
           obj[key] = newValue
+        else
+          obj[key] = if newValue === '' then [] else [newValue]
     else
       obj[key] = [obj[key]] if not (obj[key] instanceof Array)
       obj[key].push newValue
